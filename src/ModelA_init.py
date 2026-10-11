@@ -1,7 +1,7 @@
 import tensorflow as tf
 import tensorflow.keras.layers as tfl
 
-def build_model(input_shape=(64, 64, 1),num_classes=4,conv_filters=(32, 64, 128, 256),verbose=False):
+def build_model(input_shape=(64, 64, 1),num_classes=4,conv_filters=(32, 64, 128, 256),verbose=True):
     """
     Builds the standard CNN (Model A) for OCTMNIST classification.
 
