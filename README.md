@@ -2,462 +2,252 @@
 
 ## Resource-Constrained CNN for Edge Image Classification
 
-This repository contains the group work for **EN3150 - Pattern Recognition, Assignment 03**.
+Group work for **EN3150 – Pattern Recognition, Assignment 03**: designing, training, and evaluating lightweight convolutional neural networks for image classification under resource constraints.
 
-The assignment focuses on designing, training, and evaluating lightweight Convolutional Neural Networks (CNNs) for image classification under resource constraints.
+The project uses **OCTMNIST at 64 × 64 resolution**, a retinal Optical Coherence Tomography (OCT) image dataset from MedMNIST, with four classes: CNV, DME, Drusen, and Normal.
 
-The selected dataset for this project is **OCTMNIST**, a retinal Optical Coherence Tomography (OCT) image dataset from the MedMNIST collection.
+> **Current stage: data preparation and Model A initialization are implemented.**
+> Dataset exploration code, a reusable stratified data splitter, and the standard CNN architecture are available. Example notebooks record successful data loading, model construction, and a forward pass. Training, evaluation, and comparisons with lightweight models are still pending.
 
-> **Current Stage:**  
-> The project is currently in the environment setup and dataset preparation stage.  
-> Detailed information about the model architectures, experiments, results, and conclusions will be added as the project progresses.
+## Environment setup
 
----
+Run these commands from the repository root, where `README.md`, `requirements.txt`, and `src/` are located.
 
-# Dataset
+### 1. Create and activate a Python 3.11 environment
 
-## OCTMNIST
+The local development environment uses **Python 3.11.9**. Create a separate virtual environment for this project.
 
-The project uses:
-
-**OCTMNIST - Retinal Optical Coherence Tomography Image Dataset**
-
-The **64 × 64** version of the dataset is used:
-
-```text
-octmnist_64.npz
-```
-
-OCTMNIST contains retinal OCT images belonging to four classes:
-
-- Choroidal Neovascularization (CNV)
-- Diabetic Macular Edema (DME)
-- Drusen
-- Normal
-
-The dataset is obtained from the official **MedMNIST distribution**.
-
-The dataset file is not included in this repository due to its size.
-
-Each contributor should download:
-
-```text
-octmnist_64.npz
-```
-
-and place it inside the local `data/` directory.
-
-The expected location is:
-
-```text
-data/octmnist_64.npz
-```
-
----
-
-# Project Structure
-
-The project is organized as follows:
-
-```text
-EN3150_Assignment_03/
-│
-├── data/
-│   └── octmnist_64.npz
-│
-├── notebooks/
-│   └── Experimental and exploratory notebooks
-│
-├── src/
-│   └── Reusable project components
-│
-├── results/
-│   └── Generated plots, figures, tables and results
-│
-├── .gitignore
-├── README.md
-└── requirements.txt
-```
-
-## Directory Descriptions
-
-### `data/`
-
-Contains dataset files used by the project.
-
-The dataset is stored locally and is not included in the repository.
-
-### `notebooks/`
-
-Contains Jupyter notebooks used for:
-
-- dataset exploration
-- preprocessing experiments
-- model development
-- training
-- evaluation
-- result analysis
-
-### `src/`
-
-Contains reusable project components that may be developed during the project.
-
-### `results/`
-
-Contains generated outputs such as:
-
-- training and validation curves
-- confusion matrices
-- evaluation results
-- model comparison tables
-- figures used in the final report
-
----
-
-# Environment
-
-The project currently uses:
-
-- Python 3.11
-- TensorFlow / Keras
-- NumPy
-- Matplotlib
-- Scikit-learn
-- Pandas
-- Jupyter
-- IPython Kernel
-
-The exact Python package versions used in the working development environment are stored in:
-
-```text
-requirements.txt
-```
-
-The requirements file was generated from a successfully tested environment to make it easier for all contributors to reproduce the same setup.
-
----
-
-# Getting Started
-
-## 1. Open the Project Directory
-
-After obtaining the project repository, open a terminal inside the project directory.
-
-The terminal should be located at the same level as:
-
-```text
-README.md
-requirements.txt
-data/
-notebooks/
-src/
-results/
-```
-
----
-
-## 2. Check the Python Version
-
-The project is currently developed using **Python 3.11**.
-
-Check the installed Python version using:
-
-```bash
-python --version
-```
-
-The output should indicate Python 3.11.
-
----
-
-## 3. Create a Virtual Environment
-
-Each contributor should create their own Python virtual environment.
-
-### Windows
+**Windows PowerShell**
 
 ```powershell
-python -m venv .venv
-```
-
-Activate the environment using:
-
-```powershell
+py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### Linux / macOS
+**Linux / macOS**
 
 ```bash
-python3 -m venv .venv
-```
-
-Activate the environment using:
-
-```bash
+python3.11 -m venv .venv
 source .venv/bin/activate
 ```
 
-After activation, the terminal should indicate that the `.venv` environment is active.
+Verify the active interpreter:
 
-For example:
-
-```text
-(.venv)
+```bash
+python --version
+python -c "import sys; print(sys.executable)"
 ```
 
----
+The executable path should point inside the project's `.venv` directory.
 
-## 4. Upgrade pip
-
-After activating the virtual environment:
+### 2. Install dependencies
 
 ```bash
 python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
----
+The pinned requirements include TensorFlow/Keras, NumPy, Pandas, Matplotlib, Scikit-learn, Jupyter Notebook/Lab, and IPython Kernel. `requirements.txt` records the Windows development environment and includes `pywinpty`; installation on Linux/macOS may require a platform-adjusted requirements file. A fresh installation on those platforms has not been verified.
 
-## 5. Install Project Dependencies
-
-All required Python packages and their versions are listed in:
-
-```text
-requirements.txt
-```
-
-Install them using:
+Check the main imports:
 
 ```bash
-pip install -r requirements.txt
+python -c "import tensorflow as tf; import numpy, pandas, matplotlib, sklearn, jupyter; print('TensorFlow:', tf.__version__); print('Environment imports OK')"
 ```
 
-This will recreate the Python environment used for the project.
+If PowerShell activation is unavailable, use `.\.venv\Scripts\python.exe` in place of `python` to run commands with the project interpreter.
 
----
-
-## 6. Verify the Environment
-
-After installation, confirm that the main libraries can be imported successfully.
-
-The environment should support:
-
-- TensorFlow
-- NumPy
-- Matplotlib
-- Scikit-learn
-- Pandas
-- Jupyter
-
-If these libraries import without errors, the environment is ready for development.
-
----
-
-# Dataset Setup
-
-Download the **64 × 64 version of OCTMNIST**.
+### 3. Check the dataset
 
 The required file is:
 
 ```text
-octmnist_64.npz
-```
-
-Place the downloaded file inside:
-
-```text
-data/
-```
-
-The resulting path should be:
-
-```text
 data/octmnist_64.npz
 ```
 
-The dataset file should remain local and should not be committed to the repository.
+The current repository tracks this dataset file. If it is missing from your checkout, obtain the **64 × 64 OCTMNIST** archive from the official MedMNIST distribution and place it at the path above.
 
----
-
-# Starting Jupyter
-
-Jupyter is included in the project dependencies.
-
-Start Jupyter Notebook using:
-
-```bash
-jupyter notebook
-```
-
-Alternatively, if JupyterLab is available:
-
-```bash
-jupyter lab
-```
-
-Project notebooks should be stored inside:
+The preprocessor expects these archive keys:
 
 ```text
-notebooks/
+train_images, train_labels, val_images, val_labels, test_images, test_labels
 ```
 
----
-
-# Before Starting Work
-
-Before beginning development, make sure that:
-
-- Python 3.11 is installed
-- the `.venv` virtual environment has been created
-- the virtual environment is active
-- all packages in `requirements.txt` have been installed
-- `octmnist_64.npz` is available inside `data/`
-- Jupyter starts successfully
-
----
-
-# Dependency Management
-
-The current Python environment is recorded in:
-
-```text
-requirements.txt
-```
-
-If a new Python package becomes necessary during the project:
-
-1. Install the package inside the active virtual environment.
-2. Confirm that it works correctly.
-3. Update `requirements.txt`.
-4. Inform the other group members that the environment requirements have changed.
-
-The requirements file can be regenerated using:
+### 4. Start Jupyter with the project environment
 
 ```bash
-pip freeze > requirements.txt
+python -m ipykernel install --user --name en3150-cnn --display-name "Python (EN3150 CNN)"
+python -m notebook
 ```
 
-Avoid installing unnecessary libraries so that the development environment remains manageable.
+Alternatively, start JupyterLab with `python -m jupyterlab`. Open a notebook in `notebooks/` and select **Python (EN3150 CNN)** as its kernel. In an IDE, select the project's `.venv` interpreter.
 
----
+## Using the reusable components in `src/`
 
-# Files That Should Remain Local
+There is currently one reusable class, `OCTMNISTDataPreprocessor`, and one model builder function, `build_model`.
 
-The following files and directories should not be added to the repository:
+### Import paths and dataset location
 
-- `.venv/`
-- dataset files
-- `.npz` files
-- Python cache files
-- Jupyter checkpoint files
-- temporary files
-- unnecessary IDE-specific files
+Run this cell before the examples below. It supports both the repository root and `notebooks/` as the working directory, and makes `src` importable from notebooks:
 
-These should be handled through `.gitignore`.
+```python
+from pathlib import Path
+import sys
 
----
+project_root = Path.cwd().resolve()
+if not (project_root / "src").is_dir():
+    project_root = project_root.parent
+if not (project_root / "src").is_dir():
+    raise RuntimeError("Run from the repository root or its notebooks directory.")
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
-# Assignment Workflow
+data_path = project_root / "data" / "octmnist_64.npz"
+```
 
-The project will broadly follow the workflow below:
+### `OCTMNISTDataPreprocessor` — load and split the dataset
+
+Defined in [`src/data_preparation.py`](src/data_preparation.py).
+
+```python
+from src.data_preparation import OCTMNISTDataPreprocessor
+
+preprocessor = OCTMNISTDataPreprocessor(data_path=data_path)
+X_train, X_val, X_test, y_train, y_val, y_test = preprocessor.load_dataset()
+
+print(X_train.shape, y_train.shape)
+```
+
+`load_dataset(val_size=0.15, test_size=0.15)`:
+
+1. Loads and combines the original MedMNIST training, validation, and test splits.
+2. Flattens labels into one-dimensional integer-label arrays.
+3. Creates new stratified splits, preserving class proportions approximately. Defaults are **70% training / 15% validation / 15% test**.
+4. Adds a channel axis so images have shape `(N, 64, 64, 1)` for TensorFlow.
+5. Returns six arrays in the order shown above.
+
+The saved data preparation example records:
+
+| Split | Images | Image shape | Label shape |
+| --- | ---: | --- | --- |
+| Training | 76,516 | `(76516, 64, 64, 1)` | `(76516,)` |
+| Validation | 16,396 | `(16396, 64, 64, 1)` | `(16396,)` |
+| Test | 16,397 | `(16397, 64, 64, 1)` | `(16397,)` |
+
+To change the split proportions, pass fractions of the full combined dataset:
+
+```python
+# Optional alternative: 80% training / 10% validation / 10% test
+X_train, X_val, X_test, y_train, y_val, y_test = preprocessor.load_dataset(
+    val_size=0.10,
+    test_size=0.10,
+)
+```
+
+Use positive validation and test fractions whose sum is less than one, with enough samples for stratification. This workflow creates a custom evaluation split; it does **not** retain the official MedMNIST test split.
+
+**Current implementation details:**
+
+- Pixel values are returned without normalization. Model A applies its own `1 / 255` rescaling, so do not divide these inputs by 255 again before passing them to that model.
+- The constructor accepts `random_state=42`, but both internal split calls currently hardcode `42`. Changing the constructor argument does not change the split.
+- Use the returned arrays: the instance attributes such as `preprocessor.X_train` remain `None` after loading.
+- Loading and splitting happen in memory and create several arrays; allow sufficient RAM for the full dataset.
+
+### `build_model` — initialize the standard CNN (Model A)
+
+Defined in [`src/ModelA_init.py`](src/ModelA_init.py). This is a function that returns an **uncompiled, untrained** `tf.keras.Model`.
+
+```python
+from src.ModelA_init import build_model
+
+model_a = build_model(
+    input_shape=(64, 64, 1),
+    num_classes=4,
+    conv_filters=(32, 64, 128, 256),
+    verbose=True,
+)
+model_a.summary()
+
+# After loading the arrays with the preprocessor above:
+predictions = model_a(X_train[:2], training=False)
+print(predictions.shape)  # (2, 4)
+```
+
+The default architecture is:
 
 ```text
-Dataset Setup
-      ↓
-Dataset Exploration
-      ↓
-Data Preparation
-      ↓
-Training / Validation / Test Split
-      ↓
-Standard CNN - Model A
-      ↓
-Lightweight CNN - Model B
-      ↓
-Optimizer Comparison
-      ↓
-Model Training
-      ↓
-Model Evaluation
-      ↓
-Lightweight Pre-trained Model Comparison
-      ↓
-Accuracy / Memory / Computational Cost Analysis
-      ↓
-Final Discussion
+Input (64, 64, 1)
+  → Rescaling (1 / 255)
+  → Conv2D (32, 3×3, ReLU, same padding)  → MaxPooling2D (2×2)
+  → Conv2D (64, 3×3, ReLU, same padding)  → MaxPooling2D (2×2)
+  → Conv2D (128, 3×3, ReLU, same padding) → MaxPooling2D (2×2)
+  → Conv2D (256, 3×3, ReLU, same padding) → MaxPooling2D (2×2)
+  → GlobalAveragePooling2D
+  → Dense (32, ReLU)
+  → Dense (4, softmax)
 ```
 
----
+The default model has **396,196 parameters**. `conv_filters` must contain exactly four positive integers. `verbose=True` prints construction details, output shapes, and the parameter count.
 
-# Project Objectives
+Each output row contains four class probabilities in label order: `0 = CNV`, `1 = DME`, `2 = Drusen`, `3 = Normal`. A forward pass checks input/output compatibility; predictions from the initialized model are not trained classification results.
 
-The main stages of the assignment include:
+The model still needs an optimizer and loss configured with `compile()` before `fit()`. The preprocessor returns integer labels, so a sparse categorical classification loss is appropriate. Training configuration and optimizer comparisons remain future work.
 
-1. Dataset preparation and exploration
-2. Creation of training, validation, and test datasets
-3. Design of a standard CNN
-4. Design of a lightweight CNN using depthwise separable convolutions
-5. Trainable parameter analysis
-6. Activation function selection
-7. Optimizer selection and comparison
-8. Model training
-9. Training and validation loss analysis
-10. Test-set evaluation
-11. Accuracy analysis
-12. Precision and recall analysis
-13. Confusion matrix analysis
-14. Model-size comparison
-15. Computational-cost comparison
-16. Comparison with lightweight pre-trained architectures
-17. Analysis of the trade-off between accuracy, memory footprint, and computational cost
+## Project structure and notebooks
 
----
+```text
+.
+├── data/
+│   └── octmnist_64.npz
+├── notebooks/
+│   ├── Dataset_exploration.ipynb
+│   ├── data_preparation_example.ipynb
+│   ├── ModelA_development.ipynb
+│   └── ModelA_initialization_example.ipynb
+├── src/
+│   ├── data_preparation.py
+│   └── ModelA_init.py
+├── results/
+├── EN3150_Assignment_03_In23.pdf
+├── requirements.txt
+└── README.md
+```
 
-# Planned Project Documentation
+| Notebook | Purpose |
+| --- | --- |
+| [`Dataset_exploration.ipynb`](notebooks/Dataset_exploration.ipynb) | Inspect archive contents, class counts/distributions, pixel values, and stratified splits. |
+| [`data_preparation_example.ipynb`](notebooks/data_preparation_example.ipynb) | Demonstrate the reusable preprocessor and returned array shapes. |
+| [`ModelA_development.ipynb`](notebooks/ModelA_development.ipynb) | Develop Model A layer by layer and check a forward pass. |
+| [`ModelA_initialization_example.ipynb`](notebooks/ModelA_initialization_example.ipynb) | Combine the reusable preprocessor and model builder; print the model summary and check predictions. |
 
-As the project progresses, this README may be expanded to include:
+`results/` currently contains only a placeholder. It is intended for training curves, evaluation metrics, confusion matrices, and model comparison outputs.
 
-- detailed dataset description
-- dataset statistics
-- class distribution
-- preprocessing methodology
-- Model A architecture
-- Model B architecture
-- trainable parameter calculations
-- activation function justification
-- optimizer selection
-- training configuration
-- training and validation results
-- test-set evaluation
-- confusion matrices
-- precision and recall results
-- model-size comparison
-- computational-cost analysis
-- lightweight pre-trained model comparison
-- final trade-off discussion
-- conclusions
+## Current development status
 
----
+This status reflects the source code and saved notebook outputs currently in the repository.
 
-# Current Development Status
+- [x] Initial project structure and Python environment requirements recorded.
+- [x] OCTMNIST 64 × 64 dataset available.
+- [x] Dataset exploration and class-distribution analysis code added.
+- [x] Reusable data preparation class implemented.
+- [x] Custom stratified 70 / 15 / 15 split and TensorFlow input shapes demonstrated.
+- [x] Standard CNN (Model A) implemented as a reusable builder.
+- [x] Default Model A parameter count reported and sample forward pass demonstrated.
+- [ ] Finalize training configuration and activation-function justification.
+- [ ] Design Model B using depthwise separable convolutions.
+- [ ] Complete analytical parameter calculations and architecture comparisons.
+- [ ] Run optimizer experiments and train the models.
+- [ ] Analyze training and validation loss/accuracy curves.
+- [ ] Evaluate test accuracy, precision, recall, and confusion matrices.
+- [ ] Compare with lightweight pre-trained architectures.
+- [ ] Compare model size, computational cost, and accuracy/resource trade-offs.
+- [ ] Complete the final report and results documentation.
 
-- [x] Dataset selected
-- [x] OCTMNIST 64 × 64 downloaded
-- [x] Python virtual environment created
-- [x] Required libraries installed
-- [x] Libraries successfully imported
-- [x] `requirements.txt` generated
-- [x] Initial project structure created
-- [ ] Dataset exploration
-- [ ] Dataset statistics and class distribution analysis
-- [ ] Data preparation
-- [ ] 70 / 15 / 15 data split
-- [ ] Model A design
-- [ ] Model B design
-- [ ] Parameter calculations
-- [ ] Optimizer experiments
-- [ ] Model training
-- [ ] Model evaluation
-- [ ] Lightweight pre-trained model comparison
-- [ ] Final trade-off analysis
-- [ ] Final documentation
+The next phase is to configure and train Model A, develop Model B, and record comparable experiments before final evaluation.
+
+## Contributor notes
+
+- Keep virtual environments, Python caches, notebook checkpoints, and temporary IDE files local; these are covered by `.gitignore`.
+- The current `.gitignore` does **not** exclude dataset archives, and the OCTMNIST archive is already tracked. Avoid adding duplicate dataset copies or generated artifacts accidentally.
+- Install new dependencies in the project environment, verify them, and update `requirements.txt` deliberately. To regenerate the environment snapshot, use `python -m pip freeze > requirements.txt` and review the diff before committing.
+- Store reusable implementation code in `src/`, experiments in `notebooks/`, and generated analysis outputs in `results/`.
