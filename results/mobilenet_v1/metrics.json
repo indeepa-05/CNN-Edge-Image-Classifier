@@ -1,0 +1,16 @@
+{
+  "model": "MobileNetV1",
+  "input_shape": [
+    64,
+    64,
+    1
+  ],
+  "total_parameters": 3232964,
+  "trainable_parameters": 3189188,
+  "estimated_fp32_parameter_MB": 12.931856,
+  "saved_keras_model_MB": 38.798033,
+  "test_accuracy": 0.9507226931755809,
+  "macro_precision": 0.9179472528263184,
+  "macro_recall": 0.9063626079610987,
+  "macro_f1": 0.9119974951942373
+}
