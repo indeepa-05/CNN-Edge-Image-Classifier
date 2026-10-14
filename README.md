@@ -215,10 +215,10 @@ The model still needs an optimizer and loss configured with `compile()` before `
 
 | Notebook | Purpose |
 | --- | --- |
-| [`Dataset_exploration.ipynb`](notebooks/Dataset_exploration.ipynb) | Inspect archive contents, class counts/distributions, pixel values, and stratified splits. |
-| [`data_preparation_example.ipynb`](notebooks/data_preparation_example.ipynb) | Demonstrate the reusable preprocessor and returned array shapes. |
-| [`ModelA_development.ipynb`](notebooks/ModelA_development.ipynb) | Develop Model A layer by layer and check a forward pass. |
-| [`ModelA_initialization_example.ipynb`](notebooks/ModelA_initialization_example.ipynb) | Combine the reusable preprocessor and model builder; print the model summary and check predictions. |
+| [`1.Dataset_exploration.ipynb`](notebooks/1.Dataset_exploration.ipynb) | Inspect archive contents, class counts/distributions, pixel values, and stratified splits. |
+| [`2.data_preparation_example.ipynb`](notebooks/2.data_preparation_example.ipynb) | Demonstrate the reusable preprocessor and returned array shapes. |
+| [`3.ModelA_development.ipynb`](notebooks/3.ModelA_development.ipynb) | Develop Model A layer by layer and check a forward pass. |
+| [`4.ModelA_initialization_example.ipynb`](notebooks/4.ModelA_initialization_example.ipynb) | Combine the reusable preprocessor and model builder; print the model summary and check predictions. |
 
 `results/` currently contains only a placeholder. It is intended for training curves, evaluation metrics, confusion matrices, and model comparison outputs.
 
