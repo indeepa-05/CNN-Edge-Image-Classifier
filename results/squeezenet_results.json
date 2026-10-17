@@ -1,0 +1,9 @@
+{
+  "model": "squeezenet",
+  "params": 724548,
+  "size_mb": 2.78,
+  "time_per_epoch_s": 248.6,
+  "test_acc": 0.945,
+  "macro_precision": 0.9126,
+  "macro_recall": 0.8904
+}
