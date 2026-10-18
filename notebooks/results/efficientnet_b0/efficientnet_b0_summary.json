@@ -1,0 +1,9 @@
+{
+  "model": "EfficientNet-B0 (ImageNet, fine-tuned)",
+  "total_params": 4054695,
+  "size_mb": 33.2,
+  "test_accuracy": 0.9022,
+  "macro_precision": 0.8511,
+  "macro_recall": 0.7947,
+  "time_per_epoch_finetune_s": 160.6
+}
