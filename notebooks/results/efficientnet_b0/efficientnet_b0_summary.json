@@ -5,5 +5,5 @@
   "test_accuracy": 0.9022,
   "macro_precision": 0.8511,
   "macro_recall": 0.7947,
-  "time_per_epoch_finetune_s": 169.8
+  "time_per_epoch_finetune_s": 160.6
 }
